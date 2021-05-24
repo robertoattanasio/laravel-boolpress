@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +15,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@index')->name('guest.homepage');
+
+// localhost:8888/posts
+Route::prefix('posts')
+      ->group(function() {
+            Route::get('/', 'PostController@index')->name('guest.posts.index');
+            Route::get('/{slug}', 'PostController@show')->name('guests.posts.show');
+      });
+
+Route::prefix('categories')
+      ->group(function() {
+            Route::get('/', 'CategoryController@index')->name('guest.categories.index');
+            Route::get('/{slug}', 'CategoryController@show')->name('guest.categories.show');
+      });
 
 Auth::routes();
 
+// localhost:8888/admin
 Route::prefix('admin')
       ->namespace('Admin')
       ->middleware('auth')
