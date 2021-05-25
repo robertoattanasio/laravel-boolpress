@@ -149,6 +149,8 @@ class PostController extends Controller
 
         if(array_key_exists('tags', $form_data)) {
             $post->tags()->sync($form_data['tags']);
+        } else {
+            $post->tags()->sync([]);
         }
 
         return redirect()->route('admin.posts.index');
@@ -162,6 +164,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $post->tags()->sync([]);
         $post->delete();
         return redirect()->route('admin.posts.index');
     }
