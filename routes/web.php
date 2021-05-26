@@ -37,14 +37,16 @@ Route::prefix('admin')
       ->namespace('Admin')
       ->middleware('auth')
       ->group(function () {
-           Route::get('/', 'MainController@index');
-           Route::resource('/posts', PostController::class)->names([
-                 'index' => 'admin.posts.index',
-                 'create' => 'admin.posts.create',
-                 'destroy' => 'admin.posts.destroy',
-                 'update' => 'admin.posts.update',
-                 'show' => 'admin.posts.show',
-                 'edit' => 'admin.posts.edit',
-                 'create' => 'admin.posts.create',
-           ]);
+            Route::get('/', 'MainController@index');
+            Route::get('/profile', 'MainController@profile')->name('admin-profile');
+            Route::post('/profile/generate-token', 'MainController@generateToken')->name('admin.generate_token');
+            Route::resource('/posts', PostController::class)->names([
+                  'index' => 'admin.posts.index',
+                  'create' => 'admin.posts.create',
+                  'destroy' => 'admin.posts.destroy',
+                  'update' => 'admin.posts.update',
+                  'show' => 'admin.posts.show',
+                  'edit' => 'admin.posts.edit',
+                  'create' => 'admin.posts.create',
+            ]);
       });
